@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+	
+	<!--配置数据源属性文件  -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="location">
+				<value>/WEB-INF/configs/mysql.properties</value>
+			</property>
+	</bean>
+	
+	
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName">
+				<value>${jdbc.driver}</value>
+			</property>
+			<property name="url">
+				<value>${jdbc.url}</value>
+			</property>
+			<property name="username">
+				<value>${jdbc.user}</value>
+			</property>
+			<property name="password">
+				<value>${jdbc.pwd}</value>
+			</property>
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+	    <property name="configLocation" value="classpath:mybatis.xml" /> 
+	    <property name="mapperLocations" value="classpath*:mappers/*.xml" /> 
+	    <property name="dataSource" ref="dataSource" />  
+	</bean>
+		
+		<!-- MyBatis-Spring的自动装配机制-->
+	  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+        <property name="basePackage" value="com.dao" />  
+    </bean>  	
+		
+	<!-- dao 配置 -->
+	<bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+			<property name="mapperInterface" value="com.wc.dao.UserDao" />
+			<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- dao 配置结束 -->
+	
+	<!-- service 配置 -->
+	<bean id="userService" class="com.wc.service.impl.UserServiceImpl">
+			<property name="dao" ref="userDao"></property>
+	</bean>
+	<!-- service 配置结束 -->
+
+	<!-- action 配置 -->
+	<bean id="userAction" class="com.wc.action.UserAction">
+		<property name="userService" ref="userService"></property>
+	</bean>
+	<!-- action 配置结束 -->
+	
+	
+</beans>

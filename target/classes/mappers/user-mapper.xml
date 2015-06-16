@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wc.entity">
+    <resultMap type="com.wc.entity.User" id="userMap">
+        <id property="userId" column="UserId"/>
+        <result property="userToken" column="UserToken"/>
+        <result property="userName" column="UserName"/>
+        <result property="password" column="Password"/>
+        <result property="email" column="Email"/>
+        <result property="mobile" column="Mobile"/>
+        <result property="registIp" column="RegistIp"/>
+        <result property="registTime" column="RegistTime"/>
+        <result property="lastLoginIp" column="LastLoginIp"/>
+        <result property="lastLoginTime" column="LastLoginTime"/>
+        <result property="avatar" column="Avatar"/>
+        <result property="name" column="Name"/>
+        <result property="userType" column="UserType"/>
+        <result property="lockout" column="Lockout"/>
+        <result property="disabled" column="Disabled"/>
+    </resultMap>
+</mapper>

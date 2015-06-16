@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wc.dao.UserDao">
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="userId" parameterType="com.wc.entity.User">
+		insert into sp_users(UserToken,UserName,Password,Email,Mobile,RegistIp,RegistTime,LastLoginIp,LastLoginTime,Avatar,Name,UserType,Lockout,Disabled)
+		values(#{userToken},#{userName},#{password},#{email},#{mobile},#{registIp},#{registTime},#{lastLoginIp},#{lastLoginTime},#{avatar},#{name},#{userType},#{lockout},#{disabled})
+			 <selectKey resultType="int" keyProperty="userId">
+				SELECT LAST_INSERT_ID()
+			</selectKey>
+	</insert>
+	<select id="getUserByUserToken" parameterType="string" resultType="com.wc.entity.User" resultMap="com.wc.entity.userMap">
+		select * from sp_users where UserToken=#{token}
+	</select>
+	
+	<select id="getUserByUserId" parameterType="int" resultType="com.wc.entity.User" resultMap="com.wc.entity.userMap">
+		select * from sp_users where UserId=#{uid}
+	</select>
+</mapper>
